@@ -89,18 +89,17 @@
 </div>
 
 <script>
-// API URL and Proxy to bypass CORS issues
-const apiUrl = 'https://aztro.sameerkumar.website/?sign=';
+// Use a CORS proxy to avoid issues
 const proxyUrl = 'https://api.allorigins.win/raw?url=';
+const apiUrl = 'https://aztro.sameerkumar.website/?sign=';
 
-// Function to get daily horoscope
+// Get daily horoscope
 async function getHoroscope() {
     const zodiac = document.getElementById('zodiac').value;
+    const url = `${proxyUrl}${encodeURIComponent(apiUrl + zodiac + '&day=today')}`;
 
     try {
-        const response = await fetch(`${proxyUrl}${encodeURIComponent(apiUrl + zodiac + '&day=today')}`, {
-            method: 'POST'
-        });
+        const response = await fetch(url, { method: 'POST' });
 
         if (!response.ok) {
             throw new Error('Failed to fetch horoscope.');
@@ -124,7 +123,7 @@ function capitalize(str) {
     return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
-// Format date to display
+// Format date for display
 function formatDate() {
     const options = { year: 'numeric', month: 'long', day: 'numeric' };
     return new Date().toLocaleDateString('en-US', options);
