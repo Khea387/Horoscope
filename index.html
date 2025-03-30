@@ -4,28 +4,18 @@
     <title>Daily Horoscope Widget</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        /* Starry Gradient Background */
+        /* New Glittery Background */
         body {
             font-family: 'Orbitron', sans-serif;
             margin: 0;
             padding: 0;
-            background: linear-gradient(135deg, #ff66cc, #9966ff);
+            background: url('https://img.freepik.com/premium-photo/glitter-light-pink-purple-blue-particles-stage-light-shine-abstract-background_35672-1740.jpg') no-repeat center center fixed;
+            background-size: cover;
             height: 100vh;
             overflow: hidden;
             display: flex;
             justify-content: center;
             align-items: center;
-        }
-
-        /* Adding Stars */
-        body::before {
-            content: "";
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background: url('https://www.transparenttextures.com/patterns/stardust.png');
-            opacity: 0.8;
-            z-index: -1;
         }
 
         /* Container Styles */
@@ -82,7 +72,7 @@
         }
 
         #horoscope p {
-            font-size: 15px;
+            font-size: 14px;
             color: #f2f2f2;
         }
 
@@ -91,13 +81,6 @@
             margin-top: 30px;
             font-size: 14px;
             color: #ffccff;
-        }
-
-        /* Twinkling Animation */
-        @keyframes twinkle {
-            0% { opacity: 0.8; }
-            50% { opacity: 0.5; }
-            100% { opacity: 0.8; }
         }
     </style>
 </head>
@@ -131,44 +114,37 @@
 </div>
 
 <script>
-// Use a reliable CORS proxy to avoid issues
-const proxyUrl = 'https://corsproxy.io/?';
-const apiUrl = 'https://aztro.sameerkumar.website/?sign=';
+// Static horoscopes for each zodiac sign
+const horoscopes = {
+    aries: "Today is a great day to take action! Trust your instincts and be confident.",
+    taurus: "Relax and enjoy the small things in life today. Slow down and breathe.",
+    gemini: "Communication is your strength today. Connect with others and share your ideas.",
+    cancer: "Focus on your emotional well-being today. Reflect and nurture yourself.",
+    leo: "You’re in the spotlight! Shine bright and let your creativity flow.",
+    virgo: "Stay organized and keep things running smoothly. A productive day awaits.",
+    libra: "Balance is key today. Seek harmony and peace in your surroundings.",
+    scorpio: "Your intensity will lead you to success today. Stay determined and focused.",
+    sagittarius: "Adventure is calling! Embrace new experiences and explore new ideas.",
+    capricorn: "Hard work will pay off today. Stay disciplined and you’ll see results.",
+    aquarius: "Think outside the box today. Innovation and creativity will lead the way.",
+    pisces: "Let your intuition guide you. You’re more in tune with the universe than ever."
+};
 
-// Get daily horoscope
-async function getHoroscope() {
+// Get static horoscope
+function getHoroscope() {
     const zodiac = document.getElementById('zodiac').value;
-    const url = `${proxyUrl}${encodeURIComponent(apiUrl + zodiac + '&day=today')}`;
+    const message = horoscopes[zodiac];
 
-    try {
-        const response = await fetch(url, { method: 'POST' });
-
-        if (!response.ok) {
-            throw new Error('Failed to fetch horoscope.');
-        }
-
-        const data = await response.json();
-
-        // Display daily horoscope
-        document.getElementById('horoscope').innerHTML = `
-            <h3>${capitalize(zodiac)} - ${formatDate()}</h3>
-            <p><strong>Daily Horoscope:</strong> ${data.description}</p>
-            <p><strong>Lucky Number:</strong> ${data.lucky_number} | <strong>Color:</strong> ${data.color}</p>
-        `;
-    } catch (error) {
-        document.getElementById('horoscope').innerHTML = `<p style="color:red;">Failed to load horoscope. Try again later.</p>`;
-    }
+    // Display static horoscope
+    document.getElementById('horoscope').innerHTML = `
+        <h3>${capitalize(zodiac)} Horoscope</h3>
+        <p><strong>Message:</strong> ${message}</p>
+    `;
 }
 
 // Capitalize first letter of zodiac sign
 function capitalize(str) {
     return str.charAt(0).toUpperCase() + str.slice(1);
-}
-
-// Format date for display
-function formatDate() {
-    const options = { year: 'numeric', month: 'long', day: 'numeric' };
-    return new Date().toLocaleDateString('en-US', options);
 }
 </script>
 
