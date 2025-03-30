@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Daily Horoscope Widget</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Orbitron', sans-serif;
+            background-color: #1a1a1a;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 80%;
+            margin: 50px auto;
+            background-color: #333;
+            box-shadow: 0 4px 12px rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            color: white;
+        }
+        h2 {
+            color: #e0e0e0;
+        }
+        select, button {
+            padding: 12px 18px;
+            margin: 12px;
+            font-size: 16px;
+            background-color: #444;
+            color: white;
+            border: 1px solid #555;
+            border-radius: 8px;
+            outline: none;
+        }
+        select:hover, button:hover {
+            background-color: #555;
+            cursor: pointer;
+        }
+        #horoscope {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #222;
+            border-radius: 8px;
+            color: #ddd;
+        }
+        #horoscope h3 {
+            margin-top: 0;
+            color: #fff;
+        }
+        #horoscope p {
+            font-size: 14px;
+            color: #ccc;
+        }
+        footer {
+            margin-top: 30px;
+            font-size: 14px;
+            color: #888;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>✨ Get Your Daily Horoscope ✨</h2>
+    
+    <select id="zodiac">
+        <option value="aries">♈ Aries</option>
+        <option value="taurus">♉ Taurus</option>
+        <option value="gemini">♊ Gemini</option>
+        <option value="cancer">♋ Cancer</option>
+        <option value="leo">♌ Leo</option>
+        <option value="virgo">♍ Virgo</option>
+        <option value="libra">♎ Libra</option>
+        <option value="scorpio">♏ Scorpio</option>
+        <option value="sagittarius">♐ Sagittarius</option>
+        <option value="capricorn">♑ Capricorn</option>
+        <option value="aquarius">♒ Aquarius</option>
+        <option value="pisces">♓ Pisces</option>
+    </select>
+
+    <button onclick="getHoroscope()">Get Horoscope</button>
+
+    <div id="horoscope"></div>
+
+    <footer>
+        © 2025 My Horoscope App. All Rights Reserved.
+    </footer>
+</div>
+
+<script>
+// API URL and Proxy to bypass CORS issues
+const apiUrl = 'https://aztro.sameerkumar.website/?sign=';
+const proxyUrl = 'https://api.allorigins.win/raw?url=';
+
+// Function to get daily horoscope
+async function getHoroscope() {
+    const zodiac = document.getElementById('zodiac').value;
+
+    try {
+        const response = await fetch(`${proxyUrl}${encodeURIComponent(apiUrl + zodiac + '&day=today')}`, {
+            method: 'POST'
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to fetch horoscope.');
+        }
+
+        const data = await response.json();
+
+        // Display daily horoscope
+        document.getElementById('horoscope').innerHTML = `
+            <h3>${capitalize(zodiac)} - ${formatDate()}</h3>
+            <p><strong>Daily Horoscope:</strong> ${data.description}</p>
+            <p><strong>Lucky Number:</strong> ${data.lucky_number} | <strong>Color:</strong> ${data.color}</p>
+        `;
+    } catch (error) {
+        document.getElementById('horoscope').innerHTML = `<p style="color:red;">Failed to load horoscope. Try again later.</p>`;
+    }
+}
+
+// Capitalize first letter of zodiac sign
+function capitalize(str) {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
+// Format date to display
+function formatDate() {
+    const options = { year: 'numeric', month: 'long', day: 'numeric' };
+    return new Date().toLocaleDateString('en-US', options);
+}
+</script>
+
+</body>
+</html>
