@@ -60,7 +60,7 @@
             text-shadow: 0 0 15px #ff66cc, 0 0 30px #9966ff;
         }
 
-        /* Dropdown and Button Styles */
+        /* Reduced Width of Dropdown and Button */
         select, button {
             padding: 10px 16px;
             margin: 10px;
@@ -71,6 +71,8 @@
             border-radius: 8px;
             outline: none;
             box-shadow: 0 4px 10px rgba(255, 102, 204, 0.5);
+            width: calc(100% - 20px); /* Reduced width by 20px */
+            max-width: 300px; /* Added a max width for consistency */
         }
 
         select:hover, button:hover {
@@ -127,8 +129,7 @@
             }
 
             select, button {
-                width: 100%;
-                padding: 8px;
+                width: calc(100% - 20px); /* Maintain reduced width on mobile */
             }
 
             #horoscope {
