@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Daily Horoscope Widget</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* Background with Glitter Effect */
+        body {
+            font-family: 'Orbitron', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: url('https://img.freepik.com/premium-photo/glitter-light-pink-purple-blue-particles-stage-light-shine-abstract-background_35672-1740.jpg') no-repeat center center fixed;
+            background-size: cover;
+            height: 100vh;
+            overflow-y: auto; /* Enables scroll */
+        }
+
+        /* Scrollbar Customization */
+        ::-webkit-scrollbar {
+            width: 12px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #ffccff; /* Light pink track */
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, #ff66cc, #9966ff); /* Pink to Purple Gradient */
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(180deg, #ff33aa, #7744ff);
+        }
+
+        /* Main Container */
+        .container {
+            width: 90%;
+            max-width: 600px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(12px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+            border-radius: 20px;
+            padding: 20px;
+            text-align: center;
+            color: white;
+            margin-top: 20px;
+        }
+
+        /* Title */
+        h2 {
+            color: #ffccff;
+            text-shadow: 0 0 15px #ff66cc, 0 0 30px #9966ff;
+        }
+
+        /* Dropdown and Button Styles */
+        select, button {
+            padding: 12px 18px;
+            margin: 12px;
+            font-size: 16px;
+            background-color: #ff99cc;
+            color: white;
+            border: 1px solid #ff66cc;
+            border-radius: 8px;
+            outline: none;
+            box-shadow: 0 4px 10px rgba(255, 102, 204, 0.5);
+        }
+
+        select:hover, button:hover {
+            background-color: #cc66ff;
+            cursor: pointer;
+        }
+
+        /* Horoscope Display */
+        #horoscope {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            border: 1px solid #ffccff;
+            box-shadow: 0 0 15px rgba(255, 102, 204, 0.5);
+            color: #fff;
+        }
+
+        #horoscope h3 {
+            margin-top: 0;
+            color: #ffccff;
+        }
+
+        #horoscope p {
+            font-size: 14px;
+            color: #f2f2f2;
+        }
+
+        /* Footer */
+        footer {
+            margin-top: 30px;
+            font-size: 14px;
+            color: #ffccff;
+            text-shadow: 0 0 15px #ff66cc, 0 0 30px #9966ff;
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 600px) {
+            .container {
+                width: 95%;
+                padding: 15px;
+            }
+
+            h2 {
+                font-size: 18px;
+            }
+
+            select, button {
+                width: 100%;
+                padding: 10px;
+            }
+
+            #horoscope {
+                padding: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>✨ Get Your Daily Horoscope ✨</h2>
+    
+    <select id="zodiac">
+        <option value="aries">♈ Aries</option>
+        <option value="taurus">♉ Taurus</option>
+        <option value="gemini">♊ Gemini</option>
+        <option value="cancer">♋ Cancer</option>
+        <option value="leo">♌ Leo</option>
+        <option value="virgo">♍ Virgo</option>
+        <option value="libra">♎ Libra</option>
+        <option value="scorpio">♏ Scorpio</option>
+        <option value="sagittarius">♐ Sagittarius</option>
+        <option value="capricorn">♑ Capricorn</option>
+        <option value="aquarius">♒ Aquarius</option>
+        <option value="pisces">♓ Pisces</option>
+    </select>
+
+    <button onclick="getHoroscope()">Get Horoscope</button>
+
+    <div id="horoscope"></div>
+
+    <!-- Footer with CELESCI Text -->
+    <footer>
+        © 2025 All Rights Reserved. CELESCI Where Science Meets the Stars! ✨🌌
+    </footer>
+</div>
+
+<script>
+// Static horoscopes for each zodiac sign
+const horoscopes = {
+    aries: "Today is a great day to take action! Trust your instincts and be confident.",
+    taurus: "Relax and enjoy the small things in life today. Slow down and breathe.",
+    gemini: "Communication is your strength today. Connect with others and share your ideas.",
+    cancer: "Focus on your emotional well-being today. Reflect and nurture yourself.",
+    leo: "You’re in the spotlight! Shine bright and let your creativity flow.",
+    virgo: "Stay organized and keep things running smoothly. A productive day awaits.",
+    libra: "Balance is key today. Seek harmony and peace in your surroundings.",
+    scorpio: "Your intensity will lead you to success today. Stay determined and focused.",
+    sagittarius: "Adventure is calling! Embrace new experiences and explore new ideas.",
+    capricorn: "Hard work will pay off today. Stay disciplined and you’ll see results.",
+    aquarius: "Think outside the box today. Innovation and creativity will lead the way.",
+    pisces: "Let your intuition guide you. You’re more in tune with the universe than ever."
+};
+
+// Get static horoscope
+function getHoroscope() {
+    const zodiac = document.getElementById('zodiac').value;
+    const message = horoscopes[zodiac];
+
+    // Display static horoscope
+    document.getElementById('horoscope').innerHTML = `
+        <h3>${capitalize(zodiac)} Horoscope</h3>
+        <p><strong>Message:</strong> ${message}</p>
+    `;
+}
+
+// Capitalize first letter of zodiac sign
+function capitalize(str) {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+}
+</script>
+
+</body>
+</html>
